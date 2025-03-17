@@ -1,0 +1,331 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% csrf_token %}
+    <meta chatset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var dropZone = $('#drop-zone');
+            var fileInput = $('#file-input');
+
+            dropZone.on('dragover', function() {
+                dropZone.addClass('dragover');
+                return false;
+            });
+
+            dropZone.on('dragleave', function() {
+                dropZone.removeClass('dragover');
+                return false;
+            });
+
+            dropZone.on('drop', function(e) {
+                e.preventDefault();
+                dropZone.removeClass('dragover');
+                var file = e.originalEvent.dataTransfer.files[0];
+                fileInput.prop('files', e.originalEvent.dataTransfer.files);
+                uploadFile(file);
+            });
+
+            fileInput.on('change', function() {
+                var file = fileInput.prop('files')[0];
+                uploadFile(file);
+            });
+
+            function uploadFile(file) {
+                var formData = new FormData();
+                formData.append('file', file);
+
+                $.ajax({
+                    url: '{% url "upload" %}',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: { "X-CSRFToken": "{{ csrf_token }}" },
+                    success: function() {
+                        alert('Fichero cargado correctamente!');
+                        window.location.reload();
+                    },
+                    error: function() {
+                        alert('Error uploading file.');
+                    }
+                });
+            }
+        });
+    </script>
+    <style>
+        #loadingModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        #drop-zone {
+            border: 2px dashed #ccc;
+            border-radius: 20px;
+            width: 300px;
+            height: 100px;
+            margin: 50px auto;
+            text-align: center;
+            padding-top: 80px;
+            font-size: 18px;
+        }
+
+        #logo {
+            width: 70px;
+            height: 90px;
+            opacity: 0.8;
+            margin-right: 20px;
+          }
+
+        #drop-zone.dragover {
+            background-color: #f0f0f0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F2F2F2;
+        }
+        
+        .title-box h1 {
+            font-size: 36px;
+            margin: 0;
+            color: #333;
+        }
+        
+        .box {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .column {
+            margin: 0 2em;
+            width: 50%;
+        }
+        
+        /* Estilos del formulario de selección */
+        form:first-of-type {
+            background-color: #fff;
+            padding: 2em;
+            border-radius: 0.5em;
+            box-shadow: 0 0 1em rgba(0, 0, 0, 0.1);
+        }
+        
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 1em;
+        }
+        
+        select {
+            padding: 0.5em;
+            font-size: 1em;
+            border: 2px solid #ccc;
+            border-radius: 0.5em;
+            width: 100%;
+            margin-bottom: 1em;
+        }
+        
+        input[type="submit"] {
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            font-size: 1.5em;
+            padding: 0.5em 1em;
+            border-radius: 0.5em;
+            cursor: pointer;
+        }
+        
+        input[type="submit"]:hover {
+            background-color: #0060b6;
+        }
+
+        
+        /* Estilos del título */
+        .title-box {
+            background-color: #f7f7f7;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            height: 80px;
+            display: flex;  
+            justify-content: center; 
+            align-items: center;
+          }
+
+        input[type="text"] {
+            border: 2px solid #ccc; /* establecer un borde sólido de 2 píxeles con un color gris claro */
+            border-radius: 5px; /* establecer bordes redondeados con un radio de 5 píxeles */
+            padding: 8px 12px; /* establecer un espacio de relleno de 8 píxeles en la parte superior e inferior y 12 píxeles en la izquierda y derecha */
+            font-size: 25px; /* establecer el tamaño de fuente en 16 píxeles */
+            box-shadow: none; /* eliminar cualquier sombra de la caja */
+            outline: none; /* eliminar cualquier borde resaltado al hacer clic en el input */
+        }
+            
+       
+    </style>
+   
+    
+    
+    
+</head>
+
+<body id="body">
+    <div id="loadingModal" style="display: none;">
+        <div class="modal-content">
+          <h2>Cargando...</h2>
+        </div>
+    </div>
+    <div class="title-box">
+        <a href="/">
+            <img id="logo" src="{% static 'css/candado.png' %}" alt="Logo de SecurePassGen">
+        </a>
+        <h1>SecurePassGen</h1> <! - El título de Inicio de sesión ->
+        
+    </div>
+    <hr class="border border-danger border-2 opacity-50">
+    
+    <br></br>
+    <div class="box">
+        <div class="column">
+            <div class="title-box">
+                <h1>Cargar un fichero de contraseñas</h1> <! - El título de Inicio de sesión ->
+            </div>
+            <form method="POST" action="{% url 'upload' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div id="drop-zone">
+                    Arrastra aqui el fichero de contraseñas.
+                </div>
+                <input id="file-input" type="file" style="display: none;">
+            </form>
+            <div class="title-box">
+                <h1>Conjuntos de entrenamiento</h1> <! - El título de Inicio de sesión ->
+            </div>
+            <br></br>
+            <form id="trainingForm" action="rules/" method="POST">
+                {% csrf_token %}
+                <label for="selector">Selecciona una opción:</label>
+                
+                <select id="selector" name="opcion">
+                {% for fichero in ficheros %}
+                    <option value={{fichero}}>{{fichero}}</option>
+                {% endfor %}
+                </select>
+                <br><br>
+                <input type="submit" value="Entrenar">   
+            </form>
+            
+        </div>
+        <div class="column">
+            <div class="title-box">
+                <h1>Ver Reglas</h1> <! - El título de Inicio de sesión ->
+            </div>
+            <div class = "box">
+                <form action="show/" method="POST">
+                    {% csrf_token %}
+                    <div class="input-container">
+                        
+                        <select id="selector" name="opcion">
+                            {% for fichero in ficheros %}
+                                <option value={{fichero}}>{{fichero}}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="Mostrar reglas">
+                    </div>
+                </form>
+            </div>
+            <br></br>
+            <div class="title-box">
+                <h1>Análisis de contraseña</h1> <! - El título de Inicio de sesión ->
+                </div>
+                <div class = "box">
+                <form method="post" action="analyze/">
+                    {% csrf_token %}
+                    <div class="input-container">
+                        <select id="selector" name="opcion">
+                            {% for fichero in ficheros %}
+                                <option value={{fichero}}>{{fichero}}</option>
+                            {% endfor %}
+                        </select>
+                        <input id="passwd" type="text" name="my_passwd">
+                        <input type="submit" value="Enviar">
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+
+<!-- JavaScript para realizar la llamada AJAX y enviar el formulario -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#trainingForm').on('submit', function(event) {
+      event.preventDefault(); // Evitar el envío del formulario
+
+      // Mostrar el modal de carga al hacer clic en el botón "Entrenar"
+      $('#loadingModal').show();
+
+      // Obtener el valor seleccionado del selector (opción)
+      var selectedOption = $('#selector').val();
+
+      // Obtener el token CSRF
+      var csrfToken = getCookie('csrftoken');
+
+      // Llamar a la función password_rules a través de AJAX
+      $.ajax({
+        url: '{% url "Rules" %}',
+        type: 'POST',
+        data: {'opcion': selectedOption},
+        headers: {'X-CSRFToken': csrfToken}, // Incluir el token CSRF en la cabecera
+        dataType: 'json',
+        complete: function() {
+            alert("Reglas generadas correctamente")
+          // Ocultar el modal de carga después de un tiempo (3 segundos en este ejemplo)
+          setTimeout(function() {
+            $('#loadingModal').hide();
+          }, 1000);
+
+          // Redirigir a la página de /login/ después de un tiempo (3 segundos en este ejemplo)
+          setTimeout(function() {
+            window.location.href = '/login/';
+          }, 3000);
+        }
+      });
+    });
+  });
+
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+</script>
+    
+</body>
+
+</html>

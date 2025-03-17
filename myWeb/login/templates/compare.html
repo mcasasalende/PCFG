@@ -1,0 +1,340 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+      h9{
+        display: inline-block;
+        border-bottom: 2px solid #000;
+        padding-bottom: 5px;
+        font-size: 50px;
+        font-weight: bold;
+        /* Otros estilos opcionales */
+        color: #333;
+        text-align: center; 
+        /* ... */
+      }
+      .scrollable-table {
+        width: 100%;
+        height: 600px;
+        overflow-y: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        text-align: left;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #f2f2f2;
+        color: #555;
+      }
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      
+      /* Colores de fondo */
+      body {
+        background-color: #f7f7f7;
+      }
+
+      .box {
+        background-color: #f5f5f5;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+        text-align: center;
+      }
+      
+      /* Títulos */
+      h1 {
+        font-size: 36px;
+        margin: 20px 0;
+      }
+      
+      h2 {
+        font-size: 24px;
+        margin: 10px 0;
+      }
+      
+      h3 {
+        font-size: 18px;
+        margin: 5px 0;
+      }
+
+      h4 {
+        font-size: 36px;
+        margin: 20px 0;
+        border: 2px solid #444;
+        padding: 10px;
+        color: #444;
+        text-align: center; 
+      }
+
+      h5 {
+        font-size: 24px;
+        margin: 10px 20px;
+        text-align: left;
+        color: #333;
+        border: 2px solid #444;
+        padding: 10px;
+        color: #444;
+      }
+      
+      /* Formularios */
+      .form-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .form-container form {
+        flex-direction: row;
+        max-width: 800px;
+        margin: 20px auto 40px auto;
+
+      }
+      
+      .form-inline {
+        display: flex;
+        align-items: center;
+      }
+      
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 10px 0;
+      }
+      
+      .col-6 {
+        flex: 0 0 50%;
+        padding: 0 10px;
+      }
+      
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      
+      input[type="submit"] {
+        background-color: #2196f3;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        font-size: 16px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      
+      input[type="submit"]:hover {
+        background-color: #0d8bf2;
+      }
+      
+      /* Etiquetas */
+      label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      
+      /* Estilos específicos para la sección de datos */
+      .data-container {
+        margin-top: 50px;
+      }
+      
+      .data-container form {
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        max-width: 500px;
+      }
+      
+      .data-container h1 {
+        font-size: 24px;
+        margin: 20px 0;
+      }
+      
+      .data-container h2 {
+        font-size: 18px;
+        margin: 10px 0;
+      }
+      
+      .data-container h3 {
+        font-size: 16px;
+        margin: 5px 0;
+      }
+      .button {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      .progress-stacked {
+        height: 30px; /* Ajusta la altura según tu diseño */
+        background-color: #f5f5f5; /* Cambia el color del fondo según tus necesidades */
+        overflow: hidden;
+        margin: 10px 0; /* Añade margen 10px arriba y abajo */
+        border-radius: 10px; /* Ajusta el radio del borde según tus preferencias */
+      }
+
+      /* Estilos para las barras de progreso individuales */
+      .progress {
+        font-size: 16px;
+        height: 30px;
+      }
+
+      /* Estilos para la clase "bg-pen" */
+      .bg-pen {
+        background-color: #d9534f; /* Establece el color de fondo a rojo (#d9534f) */
+        color: #fff; /* Cambia el color del texto para que sea legible en el fondo rojo */
+      }
+
+      /* Estilos para la clase "bg-success" */
+      .bg-success {
+        background-color: #28a745; /* Establece el color de fondo a verde (#28a745) */
+        color: #fff; /* Cambia el color del texto para que sea legible en el fondo verde */
+      }
+    </style>
+
+  </head>
+  <div class="box">
+    <form method="POST" action="/" style="float:right;">
+      {% csrf_token %}
+      <button type="submit" class="button">Volver al inicio</button>
+    </form>
+    <h9>{{passwd}}</h9>
+  
+  </div>
+    <h5>Analizar otra contraseña</h5>
+    <div class="form-container">
+      <form method="POST" action="/login/analyze/" class="form-inline">
+        {% csrf_token %}
+        <div class="row">
+            <select id="selector" name="opcion">
+              <option value="cain-and-abel">Cain and Abel</option>
+              <option value="phpbb">PHPBB</option>
+              <option value="prueba">Prueba</option>
+              <option value="bt4-password">bt4</option>
+              <option value="python-heralding">python-heralding</option>
+            </select>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <input id="passwd" type="text" name="my_passwd">
+          </div>
+          <div class="col-6">
+            <input type="submit" value="Enviar">
+          </div>
+        </div>
+      </form>
+    </div>
+    <h5>Comparación de modelos:</h5>
+    <div class="form-container">
+        <form method="post" action="">
+          {% csrf_token %}
+          <h4>{{ modelo1 }}</h4>
+          <input type="hidden" name="passwd" value="{{ item.0 }}">
+          <h2>Score (0 - 100)</h2>
+          
+          <div class="progress-stacked">
+            <div class="progress" role="progressbar" aria-label="Segment one" aria-valuenow="{{score}}" aria-valuemin="0" aria-valuemax="100" style="width: {{score}}%">
+              <div class="progress-bar bg-success">{{score}}/100</div>
+            </div>
+            <div class="progress" role="progressbar" aria-label="Segment two" aria-valuenow="{{len_redu1}}" aria-valuemin="0" aria-valuemax="100" style="width: {{len_redu1}}%">
+              <div class="progress-bar bg-pen">
+                <button type="button" class="btn btn-secondary"  style="background-color: #d9534f; color: #fff;"
+                  data-bs-toggle="popover" data-bs-placement="top"
+                  data-bs-custom-class="%%"
+                  data-bs-title="Reducción"
+                  data-bs-content="La puntuación se reduce en {{len_redu1}} por la longiud de la contraseña">
+                  {{len_redu1}}/100
+                </button>
+              </div>
+            </div>
+          </div>
+          <h2>Reglas del modelo: {{rules1}}</h2>
+          <h2>Contraseñas usadas para entrenar el modelo: {{pass1}}</h2>
+          <h2>El modelo {{ modelo1 }} necesita analizar una media de {{passwd_por_regla1}} contraseñas para generar 1 regla</h2>
+          <h2>Coinciden {{rules_used1}} reglas del modelo con la password analizada</h2>
+        </form>
+        <form method="post" action="">
+          {% csrf_token %}
+          <h4>{{ modelo2 }}</h4>
+          <h2>Score (0 - 100)</h2>
+          <div class="progress-stacked">
+            <div class="progress" role="progressbar" aria-label="Segment one" aria-valuenow="{{score2}}" aria-valuemin="0" aria-valuemax="100" style="width: {{score2}}%">
+              <div class="progress-bar bg-success">{{score2}}/100</div>
+            </div>
+            <div class="progress" role="progressbar" aria-label="Segment two" aria-valuenow="{{len_redu1}}" aria-valuemin="0" aria-valuemax="100" style="width: {{len_redu1}}%">
+              <div class="progress-bar bg-pen">
+                <button type="button" class="btn btn-secondary"  style="background-color: #d9534f; color: #fff;"
+                  data-bs-toggle="popover" data-bs-placement="top"
+                  data-bs-custom-class="%%"
+                  data-bs-title="Reducción"
+                  data-bs-content="La puntuación se reduce en {{len_redu1}} por la longiud de la contraseña">
+                  {{len_redu1}}/100
+                </button>
+              </div>
+            </div>
+          </div>
+          <h2>Reglas del modelo: {{rules2}}</h2>
+          <h2>Contraseñas usadas para entrenar el modelo: {{pass2}}</h2>
+          <h2>El modelo {{ modelo2 }} necesita analizar una media de {{passwd_por_regla2}} contraseñas para generar 1 regla</h2>
+          <h2>Coinciden {{rules_used2}} reglas del modelo con la password analizada</h2>
+        </form>
+    </div>
+
+    <h4>Modelo con mayor aprendizaje: <button type="button" class="btn btn-secondary"
+      data-bs-toggle="popover" data-bs-placement="top"
+      data-bs-custom-class="{{mejor_modelo}}"
+      data-bs-title="{{mejor_modelo}}"
+      data-bs-content="El modelo {{mejor_modelo}} tiene un mayor aprendizaje debido a que se necesita un mayor número de contraseñas para generar una regla, es decir,
+       hay menos posibilidades que nuestra contraseña coincida con alguna regla gramática del modelo">
+       {{mejor_modelo}}
+</button></h4> 
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+        popoverTriggerList.forEach((popoverTriggerEl) => {
+          new bootstrap.Popover(popoverTriggerEl);
+        });
+    </script>
+</body>
+  </html>
+</html>

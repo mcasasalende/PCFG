@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta chatset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+</head>
+
+<body id=body1>
+    <div class="box">
+        <h1>Password</h1> <! - El título de Inicio de sesión ->
+
+        <h2 for="passwd">Enter password </h2>
+        <div>
+            <form method="post" action="analyze">
+                {% csrf_token %}
+                <div class="input-container">
+                    <input id="passwd" type="text" name="my_passwd">
+                    <input type="submit" value="Enviar">
+                </div>
+            </form>
+        </div>
+        
+    </div>
+    
+</body>
+
+</html>

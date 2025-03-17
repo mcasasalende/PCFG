@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reglas Gramaticales de Contraseñas</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+        .popover-body {
+          width: 300px; /* Ajusta el ancho del popover según tus necesidades */
+        }
+
+        .custom-popover {
+          --bs-popover-max-width: 200px;
+          --bs-popover-border-color: var(--bs-primary);
+          --bs-popover-header-bg: var(--bs-primary);
+          --bs-popover-header-color: var(--bs-white);
+          --bs-popover-body-padding-x: 1rem;
+          --bs-popover-body-padding-y: .5rem;
+        }
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+        th, td {
+          text-align: left;
+          padding: 8px;
+          border-bottom: 1px solid #ddd;
+        }
+        th {
+          background-color: #f2f2f2;
+          color: #555;
+        }
+        tr:hover {
+          background-color: #f5f5f5;
+        }
+        .box {
+          background-color: #f2f2f2;
+          padding: 20px;
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(0,0,0,0.2);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .box h1 {
+          font-size: 50px;
+          margin: 20PX;
+          padding: 0;
+        }
+        .button {
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+        select {
+          padding: 0.5em;
+          font-size: 1em;
+          border: 2px solid #ccc;
+          border-radius: 0.5em;
+          width: 100%;
+          margin-bottom: 1em;
+        }
+
+
+    </style>
+</head>
+<body id="body1">
+    <div class="box">
+        <h1>{{ modelo }}</h1>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <label for="selector">Selecciona una opción:</label>
+            <select id="selector" name="opcion">
+              {% for fichero in ficheros %}
+                  <option value={{fichero}}>{{fichero}}</option>
+              {% endfor %}
+              </select>
+            <button type="submit" class="button">Recargar Reglas</button>
+        </form>
+        <form method="POST" action="/" style="float:right;">
+            {% csrf_token %}
+            <button type="submit" class="button">Volver al inicio</button>
+        </form>
+    </div>
+    <table>
+        <thead>
+            <tr>
+              <tr>
+                <th><button type="button" class="btn btn-secondary"
+                  data-bs-toggle="popover" data-bs-placement="top"
+                  data-bs-custom-class="LHS"
+                  data-bs-title="LHS"
+                  data-bs-content="La parte izquierda de la regla gramática, la estructura preterminal a partir de la que se genera un RHS">
+            LHS
+          </button></th>
+                <th>      </th>
+                <th> <button type="button" class="btn btn-secondary"
+                  data-bs-toggle="popover" data-bs-placement="top"
+                  data-bs-custom-class="RHS"
+                  data-bs-title="RHS"
+                  data-bs-content="La parte derecha de la regla gramática. La estructura (terminal o preterminal) que se genera a partir del LHS">
+            RHS
+          </button></th>
+                <th> <button type="button" class="btn btn-secondary"
+                  data-bs-toggle="popover" data-bs-placement="top"
+                  data-bs-custom-class="%%"
+                  data-bs-title="%%"
+                  data-bs-content="El porcentaje de aparición que tiene el RHS para el LHS dado en el modelo asociado a la regla">
+            %%
+          </button></th>
+                <th> <button type="button" class="btn btn-secondary"
+                  data-bs-toggle="popover" data-bs-placement="top"
+                  data-bs-custom-class="Apariciones LHS"
+                  data-bs-title="Apariciones LHS"
+                  data-bs-content="El número de veces que la estructura preterminal del LHS aparece en el modelo">
+            Apariciones LHS
+          </button> </th>
+                <th> <button type="button" class="btn btn-secondary"
+                  data-bs-toggle="popover" data-bs-placement="top"
+                  data-bs-custom-class="Apariciones RHS"
+                  data-bs-title="Apariciones RHS"
+                  data-bs-content="El número de veces que la estructura (terminal o preterminal) del RHS aparece en el modelo">
+            Apariciones RHS
+          </button> </th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for rule in rules %}
+            <tr>
+                <td>{{ rule.LHS }}</td>
+                <td> --- ></td>
+                <td>{{ rule.RHS }}</td>
+                <td>{{ rule.prob }}</td>
+                <td>{{ rule.totalPret }}</td>
+                <td>{{ rule.totalTer }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+        popoverTriggerList.forEach((popoverTriggerEl) => {
+          new bootstrap.Popover(popoverTriggerEl);
+        });
+    </script>
+</body>
+</html>

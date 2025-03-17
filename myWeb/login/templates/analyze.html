@@ -1,0 +1,468 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+      .form-right {
+        /* Agrega cualquier estilo adicional que desees para el formulario */
+      }
+      .popover-body {
+        width: 300px; /* Ajusta el ancho del popover según tus necesidades */
+      }
+
+      .custom-popover {
+        --bs-popover-max-width: 200px;
+        --bs-popover-border-color: var(--bs-primary);
+        --bs-popover-header-bg: var(--bs-primary);
+        --bs-popover-header-color: var(--bs-white);
+        --bs-popover-body-padding-x: 1rem;
+        --bs-popover-body-padding-y: .5rem;
+      }
+      .titulo-bonito {
+        display: inline-block;
+        border-bottom: 2px solid #000;
+        padding-bottom: 5px;
+        font-size: 50px;
+        font-weight: bold;
+        /* Otros estilos opcionales */
+        color: #333;
+        text-align: left; 
+        /* ... */
+      }
+
+      
+      
+      .scrollable-table {
+        width: 100%;
+        height: 150px;
+        overflow-y: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        text-align: left;
+        padding: 20px;
+        border-bottom: 2px solid #ddd;
+        font-size: 16px;
+      }
+      th {
+        background-color: #f2f2f2;
+        color: #555;
+      }
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      
+      /* Colores de fondo */
+      body {
+        background-color: #f7f7f7;
+      }
+
+      .box {
+        background-color: #f5f5f5;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+        text-align: center;
+      }
+      
+      /* Títulos */
+      h1 {
+        font-size: 36px;
+        margin: 20px 0;
+      }
+      
+      h2 {
+        font-size: 24px;
+        margin: 10px 0;
+      }
+      h9 {
+        display: inline-block;
+        border-bottom: 2px solid #000;
+        padding-bottom: 5px;
+        font-size: 50px;
+        font-weight: bold;
+        /* Otros estilos opcionales */
+        color: #333;
+        text-align: left; 
+        /* ... */
+      }
+      
+      h3 {
+        font-size: 18px;
+        margin: 5px 0;
+      }
+
+      h4 {
+        font-size: 36px;
+        margin: 20px 0;
+        border: 2px solid #444;
+        padding: 10px;
+        color: #444;
+      }
+
+      h5 {
+        font-size: 24px;
+        margin: 10px 20px;
+        text-align: left;
+        color: #333;
+        border: 2px solid #444;
+        padding: 10px;
+        color: #444;
+      }
+      
+      /* Formularios */
+      .form-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .form-container form {
+        flex-direction: row;
+        max-width: 800px;
+        margin: 20px auto 40px auto;
+
+      }
+      
+      .form-inline {
+        display: flex;
+        align-items: center;
+      }
+      
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        margin: 10px 0;
+      }
+      
+      .col-6 {
+        flex: 0 0 50%;
+        padding: 0 10px;
+      }
+      
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      
+      input[type="submit"] {
+        background-color: #2196f3;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        font-size: 16px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      
+      input[type="submit"]:hover {
+        background-color: #0d8bf2;
+      }
+      
+      /* Etiquetas */
+      label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      
+      /* Estilos específicos para la sección de datos */
+      .data-container {
+        margin-top: 50px;
+      }
+      
+      .data-container form {
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        max-width: 500px;
+      }
+      
+      .data-container h1 {
+        font-size: 24px;
+        margin: 20px 0;
+      }
+      
+      .data-container h2 {
+        font-size: 18px;
+        margin: 10px 0;
+      }
+      
+      .data-container h3 {
+        font-size: 16px;
+        margin: 5px 0;
+      }
+      .button {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+          /* Estilos para la barra de progreso apilada */
+      .progress-stacked {
+        height: 30px; /* Ajusta la altura según tu diseño */
+        background-color: #f5f5f5; /* Cambia el color del fondo según tus necesidades */
+        overflow: hidden;
+        margin: 10px 0; /* Añade margen 10px arriba y abajo */
+        border-radius: 10px; /* Ajusta el radio del borde según tus preferencias */
+      }
+
+      /* Estilos para las barras de progreso individuales */
+      .progress {
+        font-size: 16px;
+        height: 30px;
+      }
+
+      /* Estilos para la clase "bg-pen" */
+      .bg-pen {
+        background-color: #d9534f; /* Establece el color de fondo a rojo (#d9534f) */
+        color: #fff; /* Cambia el color del texto para que sea legible en el fondo rojo */
+      }
+
+      /* Estilos para la clase "bg-success" */
+      .bg-success {
+        background-color: #28a745; /* Establece el color de fondo a verde (#28a745) */
+        color: #fff; /* Cambia el color del texto para que sea legible en el fondo verde */
+      }
+      
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.myForm').submit(function(event) {
+                event.preventDefault();
+
+                var form = $(this);
+                var passwd = form.find('input[name="passwd"]').val();
+                var score = form.find('input[name="score"]').val();
+                var len_redu = form.find('input[name="len_redu"]').val();
+                var reglas = form.find('input[name="reglas"]').val();
+                var modelo = form.find('input[name="model"]').val();
+                console.log(passwd);
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'compare' %}',
+                    data: {
+                        'passwd': passwd,
+                        'score': score,
+                        'len_redu': len_redu,
+                        'reglas': reglas,
+                        'modelo': modelo,
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    success: function(response) {
+                        // Lógica después de recibir una respuesta exitosa
+                    },
+                    error: function(xhr, status, error) {
+                        // Manejo de errores
+                    }
+                });
+            });
+        });
+    </script>
+  </head>
+  <body>
+    <div class="box">
+      <div>
+        <form method="POST" action="/" style="float:right;">
+          {% csrf_token %}
+          <button type="submit" class="button">Volver al inicio</button>
+        </form>
+      </div>
+      <div class="row"></div><div class="row"></div><div class="row"></div><div class="row"></div>
+      <h1></h1>
+      <h9>{{passwd}}</h9>
+      <h2>Score (0 - 100)</h2>
+      <div class="progress-stacked">
+        
+        <div class="progress" role="progressbar" aria-label="Segment one" aria-valuenow="{{score}}" aria-valuemin="0" aria-valuemax="100" style="width: {{score}}%">
+          <div class="progress-bar bg-success">{{score}}/100</div>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Segment two" aria-valuenow="{{len_redu}}" aria-valuemin="0" aria-valuemax="100" style="width: {{len_redu}}%">
+          <div class="progress-bar bg-pen">
+            <button type="button" class="btn btn-secondary"  style="background-color: #d9534f; color: #fff;"
+              data-bs-toggle="popover" data-bs-placement="top"
+              data-bs-custom-class="%%"
+              data-bs-title="Reducción"
+              data-bs-content="La puntuación se reduce en {{len_redu}} por la longiud de la contraseña">
+              {{len_redu}}/100
+            </button>
+          </div>
+        </div>
+      </div>
+      <h2>Modelo de análisis: {{modelo}}</h2>
+      <h2>{{passwd_por_regla}} contraseñas necesarias para generar 1 regla</h2>
+      
+    </div>
+
+      <div class="form-container">
+        <form method="post" action="" class="form-inline">
+          {% csrf_token %}
+          <div class="row">
+            <select id="selector" name="opcion">
+              {% for fichero in ficheros %}
+                  <option value={{fichero}}>{{fichero}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="row">
+              <input id="passwd" type="text" name="my_passwd">
+              <input type="submit" value="Enviar">
+          </div>
+        </form>
+      </div>
+      <h5>Contraseñas sugeridas:</h5>
+      <div class="form-container">
+        {% for item in data %}
+          <form method="post" action="compare">
+            {% csrf_token %}
+            <h4>{{ item.0 }}</h4>
+            <input type="hidden" name="passwd" value="{{ item.0 }}">
+            <h2>Score:</h2>
+            <div class="progress-stacked">
+        
+              <div class="progress" role="progressbar" aria-label="Segment one" aria-valuenow="{{item.1}}" aria-valuemin="0" aria-valuemax="100" style="width: {{item.1}}%">
+                <div class="progress-bar bg-success">{{item.1}}/100</div>
+              </div>
+              <div class="progress" role="progressbar" aria-label="Segment two" aria-valuenow="{{item.3}}" aria-valuemin="0" aria-valuemax="100" style="width: {{item.3}}%">
+                <div class="progress-bar bg-pen">
+                    {{item.3}}/100
+                </div>
+              </div>
+            </div>
+            <h3></h3>
+            <input type="hidden" name="score" value="{{ item.1 }}">
+            <h2>Nº de reglas usadas para el análisis</h2>
+            <input type="hidden" name="reglas" value="{{ item.2 }}">
+            <h3>{{ item.2 }}</h3>
+            <input type="hidden" name="len_redu" value="{{ item.3 }}">
+            <h2>Modelo de análisis:</h2>
+            <h3>{{ modelo }}</h3>
+            <input type="hidden" name="model" value="{{ modelo }}">
+            <h2>Comparar con otro modelo:</h2>
+            <div class="row">
+              <select id="selector" name="opcion">
+                {% for fichero in ficheros %}
+                    <option value={{fichero}}>{{fichero}}</option>
+                {% endfor %}
+              </select>
+              <input type="submit" value="{{ item.0 }}" name="my_passwd">
+            </div>
+          </form>
+        {% endfor %}
+      </div>
+        
+<section>
+  <h1>Reglas que coinciden con la contraseña analizada:</h1>
+		<div class="row">
+			
+			<table class="scrollable-table">
+        <thead>
+          <tr>
+            <th><button type="button" class="btn btn-secondary"
+              data-bs-toggle="popover" data-bs-placement="top"
+              data-bs-custom-class="LHS"
+              data-bs-title="LHS"
+              data-bs-content="La parte izquierda de la regla gramática, la estructura preterminal a partir de la que se genera un RHS">
+        LHS
+      </button></th>
+            <th>      </th>
+            <th> <button type="button" class="btn btn-secondary"
+              data-bs-toggle="popover" data-bs-placement="top"
+              data-bs-custom-class="RHS"
+              data-bs-title="RHS"
+              data-bs-content="La parte derecha de la regla gramática. La estructura (terminal o preterminal) que se genera a partir del LHS">
+        RHS
+      </button></th>
+            <th> <button type="button" class="btn btn-secondary"
+              data-bs-toggle="popover" data-bs-placement="top"
+              data-bs-custom-class="%%"
+              data-bs-title="%%"
+              data-bs-content="El porcentaje de aparición que tiene el RHS para el LHS dado en el modelo asociado a la regla">
+        %%
+      </button></th>
+            <th> <button type="button" class="btn btn-secondary"
+              data-bs-toggle="popover" data-bs-placement="top"
+              data-bs-custom-class="Apariciones LHS"
+              data-bs-title="Apariciones LHS"
+              data-bs-content="El número de veces que la estructura preterminal del LHS aparece en el modelo">
+        Apariciones LHS
+      </button> </th>
+            <th> <button type="button" class="btn btn-secondary"
+              data-bs-toggle="popover" data-bs-placement="top"
+              data-bs-custom-class="Apariciones RHS"
+              data-bs-title="Apariciones RHS"
+              data-bs-content="El número de veces que la estructura (terminal o preterminal) del RHS aparece en el modelo">
+        Apariciones RHS
+      </button> </th>
+            <th> <button type="button" class="btn btn-secondary"
+              data-bs-toggle="popover" data-bs-placement="top"
+              data-bs-custom-class="Reducción"
+              data-bs-title="Reducción"
+              data-bs-content="Puntuación en la que se reduce el score de la contraseña debido a esta regla">
+        Reducción
+      </button> </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for rule, reduccion in rule_data %}
+            <tr>
+              <td>{{ rule.LHS }}</td>
+              <td>---&gt;</td>
+              <td>{{ rule.RHS }}</td>
+              <td>{{ rule.prob }}</td>
+              <td>{{ rule.totalPret }}</td>
+              <td>{{ rule.totalTer }}</td>
+              <td>{{ reduccion }}</td> <!-- Muestra el valor de "reduccion" en esta iteración -->
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+        popoverTriggerList.forEach((popoverTriggerEl) => {
+          new bootstrap.Popover(popoverTriggerEl);
+        });
+    </script>
+		</div>
+</section>
+  </body>
+  </html>
+</html>
